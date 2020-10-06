@@ -1,0 +1,13 @@
+# graphviz
+# notebook
+# plotly
+
+# numpy
+# pandas
+# nevergrad
+# flask
+# flask-cors
+# matplotlib
+# numpy-stl
+git+https://github.com/afshawnlotfi/madesigner.git
+git+https://github.com/usuaero/MachUp_Py.git

@@ -1,0 +1,141 @@
+- Change control surface wedge cutout to two supported lines.
+
+- Add support for sheeted trailing edge (bottom sheet/square stock.)
+
+- Need a way to specify rib material thickness.
+
+- Design is dirty after initial load from menu->open and shouldn't be.
+
+- Support flap/aileron starting/stopped at the same station.
+
+- Test/support full wing sheeting.
+
+- Add an about me page/dialog?
+
+- Sheeting needs to allow various positioning like other objects to handle
+  tapered wings!
+
+- (why?) wing: made a (bad) stringer shape with only 2 points!
+  picking up inner rib of mirror side?  Maybe assume this is a 'normal'
+  error and don't report ... or figure out how to distinguish these by more
+  than station?  because both wings could share the central station.
+
+- Dihedral should be summed with previous panel if wing is linked.
+
+- Need to (a) stretch inner rib to account for dihedral and (b) cant it in
+  the 3d model so it looks right.  Probably not a big deal for building
+  but shows up annoyingly in the 3d model.
+
+- Way to specify absolute position of assemblies.
+
+- 1/14/2014: User bug report with mm units: leads to addition of fields to
+  specify cut sheet and plan sheet dimensions, as well as working through
+  the process of doing everything in mm.  Still an open issue with material
+  width when not using "in" units.
+
+- 1/1/2014: Relative positioning of sub assemblies.  In the current
+  implementation this is accomplished by "linking" a wing to another wing.
+
+- 12/27/2013: Add internal version knowledge, remote check for new version
+  (in a task.)  Related: heads up message if we are loading a design written
+  by a different version of creator.
+
+- 12/27/2013: Control surfaces via gui.  Need to figure out a sane way to
+  specify trailing edge of wing vs. control surface.  builder will split up
+  trailing edge at flap boundaries and assign part = wing | flap accordingly.
+
+- 12/26/2013: Control surface ... specifying position with anything other
+  than absolute position seems to result in edge stringer misplacement.
+  Fixed by adding an "xoffset" to a CutPos which is added after the position
+  is evaluated (could be a percent of chord for instance which we don't know
+  until the rib is made.)
+
+- 12/22/2013: Fix output location of .svg files
+
+- 12/22/2013: Check that .ac exists and is newer than .mad file before
+  allowing view3d
+
+- 12/22/2013: Beautify saved xml files (.mad) by using lxml instead of xml
+  which supports the pretty_print=True flag when calling write()
+
+- 12/21/2013: Spars are vertically aligned after twist rotation, stringers
+  are always flush/tangent to the surface.
+
+- 12/19/2013: When opening a new design, old wings aren't deleted.
+
+- 12/19/2013: Warn if trying to build a dirty design (build is from the saved
+  file, not in memory
+
+- 12/18/2013: Curved taper via gui / spline curve.  The interface is a bit
+  clunky, but see the yet to be written docs and examples.
+
+- 12/18/2013: Tapered wing, bug with bottom sheeting 3d, predict num
+  surfaces (?)  This was an edge case bug where I was counting number of
+  vertices not number of surfaces.
+
+- 12/18/2013: Add separate root/tip chord support for tapered wings.
+
+- 12/17/2013: Airfoil selection via file/dialog box rather than typing the name.
+  allow either / or via the new 'assist me' menu.
+
+- 12/15/2013: Implement 'new' button that clears the current design andi
+  starts from scratch.
+
+- 12/15/2013: Catch deletion of structures as a design change so we can warn
+  of unsaved changes.
+
+- 12/15/2013: Implement change tracking so we can warn of unsaved changes
+  if we are quiting, opening, or new-ing
+
+- Fixed: 12/5/2013 (insert a point right at the cut so we can get a perfect fit)
+  Trailing edge blending not happening now so there is a discontinuity with
+  rib -> stock flow.  We should have support for this in code?
+  Seems to work with symmetrical airfoils, but not asymetric airfoils?
+  It's because we cheet the original contour points before cutout so we
+  can't have the tail ends cross so there's a bit of a discontinuity from the
+  last point to the tip ... in a low res build this is more pronounced.
+  The fix I think would be to insert a contour point right at the trailing
+  edge cut.
+
+- Fixed: 12/4/2013
+  builder can now set # of airfoil resample points and # of points used
+  to build circles to control build speed vs. quality
+
+- Fixed: 12/4/2013
+  Just noticed a glitch in polygon winding on bottom sheeting, fixed.
+
+- Fixed: 12/4/2013
+  need to fix surf # estimation in sheeting when blending shapes and changing
+  # of points from one rib to the next.
+
+- Fixed: 12/4/2013 (pull extrusion from same set of points used to create
+  3d model)
+  trailing edge not correctly drawn on plans.
+  leading edge has same problem I think?
+
+- Fixed: 12/4/2013
+  Need to adjust 'saved_bounds()' when part is rotated so post rotation parts
+  get placed correctly and not relative to the original bounds before rotation.
+  shows up more in high twist design.
+
+- Fixed: 12/3/2013 (float/int implicit conversion bug, otherwise pretty much
+  worked as intended!)
+  test 3d sheet building when airfoil interpolates from one size/shape to
+  another over the length of the wing.
+
+- Fixed: 12/3/2013 (need to rotate/transform the seed points not just the
+  cut polygon)
+  leading edge stock doesn't follow "twist"
+  trailing edge stock doesn't follow "twist"
+  sheeting doesn't follow twist
+  (I believe the problem is because these items are cutout before the twist
+  is applied.)
+
+- Fixed: 12/3/2013 (reimplmented algorithm with new approach)
+  Sheet 3d model creation now far more robust and can handle basic wing
+  sweep.
+
+- FIXED: 12/2/2013 (python indent bug)
+  Spars/stringers can get goofy, drop to bottom for one spar in some case
+  with twist?
+
